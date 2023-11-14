@@ -27,7 +27,7 @@ async def file_handler(message: types.Message):
 
 
 async def send_file_to_server(file):
-    url = "http://127.0.0.1:8000/files/"
+    url = "http://172.18.0.2:8000/files/"
     async with ClientSession() as session:
         async with session.get(url+file.file_path.split("/")[-1]) as response:
             if response.status != 200:
