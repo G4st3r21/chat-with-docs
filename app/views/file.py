@@ -2,7 +2,7 @@ import os
 from aiohttp import ClientSession
 
 from fastapi import APIRouter, UploadFile, File
-from app.utils import *
+from utils import *
 
 file_router = APIRouter()
 token = "5986084810:AAG14PDKkXEjZ64B3utHff7heO4KHL5kaZA"
