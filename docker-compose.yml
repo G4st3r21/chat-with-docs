@@ -1,12 +1,14 @@
 version: "3"
 services:
   bot:
+    container_name: cwd-bot
     build: ./bot
     depends_on:
       - server
     environment:
       - OPENAI_API_TOKEN=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
   server:
+    container_name: cwd-server
     build: ./app
     ports:
       - "8000:8000"
