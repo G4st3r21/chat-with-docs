@@ -36,11 +36,6 @@ async def send_file_to_server(file):
             return response.text
 
 
-@dp.errors()
-async def errors_handler(update, exception):
-    logging.exception(exception)
-
-
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(dp.start_polling(bot))
