@@ -1,0 +1,14 @@
+version: "3"
+services:
+  bot:
+    build: ./bot
+    depends_on:
+      - server
+    environment:
+      - OPENAI_API_TOKEN=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
+  server:
+    build: ./app
+    ports:
+      - "8000:8000"
+    environment:
+      - BOT_TOKEN=5986084810:AAG14PDKkXEjZ64B3utHff7heO4KHL5kaZA
