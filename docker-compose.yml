@@ -1,14 +1,14 @@
 version: "3"
 services:
   student-ai-bot:
-    container_name: cwd-bot
+    container_name: student-ai-bot
     build: ./bot
     depends_on:
       - server
     environment:
       - BOT_TOKEN=5986084810:AAG14PDKkXEjZ64B3utHff7heO4KHL5kaZA
   neftegas-ai-bot:
-    container_name: cwd-bot
+    container_name: neftegas-ai-bot
     build: ./bot
     depends_on:
       - server
