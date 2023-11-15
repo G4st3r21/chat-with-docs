@@ -1,21 +1,5 @@
 version: "3"
 services:
-  student-ai-bot:
-    container_name: student-ai-bot
-    build: ./bot
-    depends_on:
-      - server
-    environment:
-      - BOT_TOKEN=5986084810:AAG14PDKkXEjZ64B3utHff7heO4KHL5kaZA
-      - BOT_TOKEN_NAME=BOT_SAB_TOKEN
-  neftegas-ai-bot:
-    container_name: neftegas-ai-bot
-    build: ./bot
-    depends_on:
-      - server
-    environment:
-      - BOT_TOKEN=6359814080:AAFdhF_z8oHpuvyOaHS6I3lgXeo8nsVXB8g
-      - BOT_TOKEN_NAME=BOT_NAB_TOKEN
   server:
     container_name: cwd-server
     build: ./app
@@ -25,3 +9,21 @@ services:
       - OPENAI_API_TOKEN=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
       - BOT_SAB_TOKEN=5986084810:AAG14PDKkXEjZ64B3utHff7heO4KHL5kaZA
       - BOT_NAB_TOKEN=6359814080:AAFdhF_z8oHpuvyOaHS6I3lgXeo8nsVXB8g
+  student-ai-bot:
+    container_name: cwd-student-bot
+    build: ./bot
+    depends_on:
+      - server
+    environment:
+      - BOT_TOKEN=5986084810:AAG14PDKkXEjZ64B3utHff7heO4KHL5kaZA
+      - BOT_THEME=student
+      - OPENAI_PROMPT=NONE # TODO: СОСТАВИТЬ ПРОМТЫ
+  neftegas-ai-bot:
+    container_name: cwd-neftegas-bot
+    build: ./bot
+    depends_on:
+      - server
+    environment:
+      - BOT_TOKEN=6359814080:AAFdhF_z8oHpuvyOaHS6I3lgXeo8nsVXB8g
+      - BOT_THEME=neftegas
+      - OPENAI_PROMPT=NONE # TODO: СОСТАВИТЬ ПРОМТЫ

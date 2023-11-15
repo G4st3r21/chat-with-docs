@@ -27,9 +27,14 @@ async def file_handler(message: types.Message):
 
 
 async def send_file_to_server(file):
-    url = "http://172.18.0.2:8000/files/"
+    url = "http://172.18.0.2:8000/files"
     async with ClientSession() as session:
-        async with session.get(url+getenv("BOT_TOKEN_NAME")+"/"+file.file_path.split("/")[-1]) as response:
+        body = {
+            "bot_token": getenv("BOT_TOKEN"),
+            "openai_prompt": getenv("OPENAI_PROMPT"),
+            "file_name": file.file_path.split("/")[-1],
+        }
+        async with session.post(url, data=body) as response:
             if response.status != 200:
                 return "Ошибка при получении файла"
 

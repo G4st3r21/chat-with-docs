@@ -3,30 +3,17 @@ from aiohttp import ClientSession
 from os import getenv
 
 from fastapi import APIRouter, UploadFile, File
+from starlette.requests import Request
+
 from utils import *
 
 file_router = APIRouter()
 
 
-async def send_request_and_receive_file(bot_type, file_path: str):
-    telegram_file_url = f"https://api.telegram.org/file/bot{getenv(bot_type)}/{file_path}"
-
-    async with ClientSession() as session:
-        async with session.get(telegram_file_url) as response:
-            if response.status != 200:
-                return None
-
-            file_name = os.path.basename(file_path)
-            with open(f"files/{file_name}", "wb") as file:
-                file.write(await response.read())
-
-            return file_name
-
-
-@file_router.get("/files/{bot_type}/{file_path}")
-async def get_text_from_file(bot_type: str, file_path: str):
-    file_name = await send_request_and_receive_file(bot_type, "documents/{file_path}")
-
+@file_router.post("/files")
+async def get_text_from_file(request: Request):
+    body = await request.json()
+    file_name = await send_request_and_receive_file(body, "documents/{file_path}")
     file_extension = os.path.splitext(file_name)[1]
 
     if file_extension.lower() not in [".pdf", ".txt", ".jpeg"]:
@@ -36,3 +23,17 @@ async def get_text_from_file(bot_type: str, file_path: str):
     openai_answer = await send_text_to_neural_network(file_name, file_extension, processed_text)
 
     return {"text": openai_answer}
+
+
+async def send_request_and_receive_file(body):
+    telegram_file_url = f"https://api.telegram.org/file/bot{body['bot_token']}/documents/{body['file_name']}"
+
+    async with ClientSession() as session:
+        async with session.get(telegram_file_url) as response:
+            if response.status != 200:
+                return None
+
+            with open(f"files/{body['file_name']}", "wb") as file:
+                file.write(await response.read())
+
+            return body['file_name']
