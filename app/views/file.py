@@ -8,8 +8,8 @@ from utils import *
 file_router = APIRouter()
 
 
-async def send_request_and_receive_file(file_path: str):
-    telegram_file_url = f"https://api.telegram.org/file/bot{getenv('OPENAI_API_TOKEN')}/{file_path}"
+async def send_request_and_receive_file(bot_type, file_path: str):
+    telegram_file_url = f"https://api.telegram.org/file/bot{getenv(bot_type)}/{file_path}"
 
     async with ClientSession() as session:
         async with session.get(telegram_file_url) as response:
@@ -23,9 +23,9 @@ async def send_request_and_receive_file(file_path: str):
             return file_name
 
 
-@file_router.get("/files/{file_path}")
-async def get_text_from_file(file_path: str):
-    file_name = await send_request_and_receive_file(f"documents/{file_path}")
+@file_router.get("/files/{bot_type}/{file_path}")
+async def get_text_from_file(bot_type: str, file_path: str):
+    file_name = await send_request_and_receive_file(bot_type, "documents/{file_path}")
 
     file_extension = os.path.splitext(file_name)[1]
 
