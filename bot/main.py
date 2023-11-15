@@ -1,7 +1,7 @@
 import asyncio
 import logging
-import sys
-
+from sys import stdout
+from os import getenv
 from aiohttp import ClientSession
 from aiogram import Bot, types, Dispatcher, F
 from aiogram.enums import ParseMode
@@ -9,7 +9,7 @@ from aiogram.filters import CommandStart
 from aiogram.fsm.storage.memory import MemoryStorage
 
 logging.basicConfig(level=logging.INFO)
-bot = Bot("5986084810:AAG14PDKkXEjZ64B3utHff7heO4KHL5kaZA", parse_mode=ParseMode.HTML)
+bot = Bot(getenv("BOT_TOKEN"), parse_mode=ParseMode.HTML)
 dp = Dispatcher(storage=MemoryStorage())
 
 
@@ -37,5 +37,5 @@ async def send_file_to_server(file):
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO, stream=sys.stdout)
+    logging.basicConfig(level=logging.INFO, stream=stdout)
     asyncio.run(dp.start_polling(bot))

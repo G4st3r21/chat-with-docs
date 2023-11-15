@@ -1,15 +1,15 @@
 import os
 from aiohttp import ClientSession
+from os import getenv
 
 from fastapi import APIRouter, UploadFile, File
 from utils import *
 
 file_router = APIRouter()
-token = "5986084810:AAG14PDKkXEjZ64B3utHff7heO4KHL5kaZA"
 
 
 async def send_request_and_receive_file(file_path: str):
-    telegram_file_url = f"https://api.telegram.org/file/bot{token}/{file_path}"
+    telegram_file_url = f"https://api.telegram.org/file/bot{getenv('OPENAI_API_TOKEN')}/{file_path}"
 
     async with ClientSession() as session:
         async with session.get(telegram_file_url) as response:
