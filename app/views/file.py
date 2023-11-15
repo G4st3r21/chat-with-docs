@@ -13,7 +13,7 @@ file_router = APIRouter()
 @file_router.post("/files")
 async def get_text_from_file(request: Request):
     body = await request.json()
-    file_name = await send_request_and_receive_file(body, "documents/{file_path}")
+    file_name = await send_request_and_receive_file(body)
     file_extension = os.path.splitext(file_name)[1]
 
     if file_extension.lower() not in [".pdf", ".txt", ".jpeg"]:
